@@ -46,6 +46,20 @@ tr.det > td {background:#fafafa; padding:10px 12px;}
   .method {overflow-x:auto;}
 }
 
+.m-det .dt {font-size:15px;}
+.m-chips span {display:inline-block; border:1px solid #a6a6a6; padding:2px 6px; margin:4px 4px 4px 0; font-weight:bold;}
+.m-hd {font-weight:bold; font-size:13px; margin:12px 0 4px 0; border-bottom:1px solid #808080;}
+.m-card {border:1px solid #a6a6a6; background:#fff; margin:0 0 8px 0;}
+.m-q {background:#d9d9d9; font-weight:bold; padding:4px 6px; border-bottom:1px solid #a6a6a6;}
+.m-row {border-bottom:1px solid #e0e0e0; padding:4px 6px;}
+.m-row:last-child {border-bottom:none;}
+.m-lab {font-size:11px; color:#595959; font-weight:bold; text-transform:uppercase; letter-spacing:.3px;}
+.m-val {padding:1px 0; line-height:1.4;}
+.m-tag {display:inline-block; border:1px solid #a6a6a6; padding:0 5px; margin:2px 0; font-weight:bold;}
+.m-small {font-size:11px; color:#595959;}
+.m-pt {display:flex; justify-content:space-between; gap:8px; border-bottom:1px solid #e0e0e0; padding:4px 6px;}
+.m-pt b {min-width:38px; text-align:center; border:1px solid #a6a6a6;}
+
 .tp-bar {background:#1E4D2B; color:#fff; margin:-16px -16px 12px -16px; padding:12px 16px 10px 16px;
          display:flex; align-items:center; gap:12px;}
 .tp-bar img {width:42px; height:42px; border:1px solid rgba(255,255,255,.5);}
@@ -197,4 +211,64 @@ for (i = 0; i < DATA.length; i++) counts[DATA[i].overall_signal] = (counts[DATA[
 for (i = 0; i < ORDER.length; i++) if (counts[ORDER[i]]) parts.push(ORDER[i] + ": " + counts[ORDER[i]]);
 document.getElementById("sub").innerHTML = DATA.length + " companies &nbsp;·&nbsp; prepared 23 Nov 2026 &nbsp;·&nbsp; " + parts.join(" &nbsp;·&nbsp; ");
 render();
+</script><script>
+(function () {
+  var deskDetail = detail;
+  function row(label, valueHtml, colour) {
+    return '<div class="m-row"><div class="m-lab">' + label + '</div><div class="m-val"' +
+      (colour && colour !== "#ffffff" ? ' style="background:' + colour + '"' : '') + '>' + valueHtml + '</div></div>';
+  }
+  detail = function (r) {
+    if (window.innerWidth > 760) return deskDetail(r);
+    var h = '<div class="m-det">', k, x;
+    h += '<div class="dt">' + esc(r._company) + '</div>';
+    h += '<div class="m-chips"><span style="background:' + bg("overall_signal", r.overall_signal) + '">' + esc(r.overall_signal) + '</span>'
+       + '<span style="background:' + scoreBg(r.formula_score) + '">Formula ' + r.formula_score.toFixed(1) + '</span>'
+       + '<span style="background:' + scoreBg(r.conviction_score) + '">AI ' + r.conviction_score + '/10' + (Math.abs(r.score_gap) >= GAP ? ' &#9670;' : '') + '</span></div>';
+    h += '<div class="sub">' + esc(r.one_line_thesis) + '</div>';
+
+    h += '<div class="m-hd">Quarter by quarter (latest first)</div>';
+    var q = (r.quarters || []).slice().reverse();
+    for (k = 0; k < q.length; k++) {
+      h += '<div class="m-card"><div class="m-q">' + esc(q[k].quarter) + '</div>'
+         + row("Growth / demand", esc(q[k].growth)) + row("Margins", esc(q[k].margins))
+         + row("Guidance", esc(q[k].guidance)) + row("Tone", (ARROW[q[k].tone] || "") + esc(q[k].tone), bg("tone", q[k].tone))
+         + row("Notable", esc(q[k].notable)) + '</div>';
+    }
+
+    h += '<div class="m-hd">The calls</div><div class="m-card">';
+    var d = [["Guidance", r.guidance_direction, "guidance_direction", r.guidance_detail],
+             ["Demand", r.demand_trend, "demand_trend", r.demand_detail],
+             ["Margins", r.margin_trend, "margin_trend", r.margin_detail],
+             ["Capacity / capex", r.capacity_signal, "capacity_signal", r.capacity_detail],
+             ["Delivery vs promises", r.credibility, "credibility", r.credibility_detail],
+             ["Cycle stage", r.cycle_stage, "cycle_stage", ""]];
+    for (x = 0; x < d.length; x++)
+      h += row(d[x][0], '<span class="m-tag" style="background:' + bg(d[x][2], d[x][1]) + '">' + (ARROW[d[x][1]] || "") + esc(d[x][1]) + '</span>'
+               + (d[x][3] ? '<div>' + esc(d[x][3]) + '</div>' : ''));
+    h += '</div>';
+
+    h += '<div class="m-card">'
+       + row("Early-cycle evidence", bullets(r.early_cycle_evidence))
+       + row("Triggers to watch", bullets(r.triggers))
+       + row("Red flags", bullets(r.red_flags), r.red_flags && r.red_flags.length ? "#fff2cc" : "")
+       + row("Analysts pressed on", esc(r.analyst_concerns))
+       + row("Key quote", '<i>&ldquo;' + esc(r.key_quote) + '&rdquo;</i>')
+       + (r._deck ? row("From the presentation", '<div class="m-small">' + esc(r._deck) + '</div>' + bullets(r.deck_findings)) : '')
+       + '</div>';
+
+    h += '<div class="m-hd">Formula score: how it adds up</div><div class="m-card">';
+    var fp = r.formula_parts || [];
+    for (x = 0; x < fp.length; x++)
+      h += '<div class="m-pt"><span>' + esc(fp[x][0]) + ': ' + esc(fp[x][1]) + '</span><b style="background:'
+         + (fp[x][2] > 0 ? "#d9ead3" : fp[x][2] < 0 ? "#f4cccc" : "#fff") + '">' + (fp[x][2] > 0 ? "+" : "") + fp[x][2] + '</b></div>';
+    h += '<div class="m-pt"><span><strong>Total</strong> = 5.5 + 0.45 &times; ' + r.formula_points + '</span><b style="background:'
+       + scoreBg(r.formula_score) + '">' + r.formula_score.toFixed(1) + '</b></div></div>';
+    return h + '</div>';
+  };
+  var lastWide = window.innerWidth > 760;
+  window.addEventListener("resize", function () {       // phone turned sideways: switch layout
+    var wide = window.innerWidth > 760; if (wide !== lastWide) { lastWide = wide; render(); } });
+  render();
+})();
 </script><div class="tp-foot">Karma Capital · Internal research · Not investment advice</div></body></html>
