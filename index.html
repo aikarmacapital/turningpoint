@@ -27,7 +27,9 @@ tr.det > td {background:#fafafa; padding:10px 12px;}
 @media (max-width: 760px) {
   body {margin:8px; font-size:13px;}
   h1 {font-size:16px;}
-  .bar label {display:block; margin:3px 0;}
+  .bar label {display:inline-block; width:48%; margin:3px 0; font-size:12px; vertical-align:top;}
+  .bar label select, .bar label input {display:block; width:95%; margin:2px 0 0 0;}
+  #count {display:block; font-size:12px; color:#595959; margin-top:2px;}
   .bar select, .bar input {font-size:14px; padding:3px;}
   /* phone shows: #, Company, Formula score, Signal, What changed - tap a company for everything else */
   #tbl th:nth-child(3), #tbl th:nth-child(4), #tbl th:nth-child(6), #tbl th:nth-child(8),
@@ -46,19 +48,58 @@ tr.det > td {background:#fafafa; padding:10px 12px;}
   .method {overflow-x:auto;}
 }
 
-.m-det .dt {font-size:15px;}
-.m-chips span {display:inline-block; border:1px solid #a6a6a6; padding:2px 6px; margin:4px 4px 4px 0; font-weight:bold;}
-.m-hd {font-weight:bold; font-size:13px; margin:12px 0 4px 0; border-bottom:1px solid #808080;}
-.m-card {border:1px solid #a6a6a6; background:#fff; margin:0 0 8px 0;}
-.m-q {background:#d9d9d9; font-weight:bold; padding:4px 6px; border-bottom:1px solid #a6a6a6;}
-.m-row {border-bottom:1px solid #e0e0e0; padding:4px 6px;}
-.m-row:last-child {border-bottom:none;}
-.m-lab {font-size:11px; color:#595959; font-weight:bold; text-transform:uppercase; letter-spacing:.3px;}
-.m-val {padding:1px 0; line-height:1.4;}
-.m-tag {display:inline-block; border:1px solid #a6a6a6; padding:0 5px; margin:2px 0; font-weight:bold;}
-.m-small {font-size:11px; color:#595959;}
-.m-pt {display:flex; justify-content:space-between; gap:8px; border-bottom:1px solid #e0e0e0; padding:4px 6px;}
-.m-pt b {min-width:38px; text-align:center; border:1px solid #a6a6a6;}
+#mlist {display:none;}
+#mhow > summary {cursor:pointer; font-weight:bold; margin-top:12px;}
+@media (max-width: 760px) {
+  #mlist {display:block;}
+  .note {display:none;}
+  .bar {padding:6px 8px;}
+  #mhow {border:1px solid #a6a6a6; background:#f2f2f2; padding:8px; margin-top:12px;}
+  #mhow .method {border-top:none; margin-top:6px; padding-top:0;}
+  .m-div {background:#f2f2f2; border:1px solid #a6a6a6; padding:6px 8px; margin:14px 0 6px 0; font-weight:bold; font-size:12px;}
+  .m-card {border:1px solid #a6a6a6; border-left:5px solid #1E4D2B; background:#fff; padding:8px 10px; margin:0 0 8px 0; cursor:pointer;}
+  .m-card.m-open {background:#f7f9f7; margin-bottom:0; border-bottom:none;}
+  .m-top {display:flex; align-items:center; gap:8px;}
+  .m-rank {color:#808080; font-size:12px; min-width:18px;}
+  .m-name {font-weight:bold; font-size:15px; flex:1;}
+  .m-score {font-weight:bold; font-size:16px; border:1px solid #808080; padding:2px 7px; min-width:30px; text-align:center;}
+  .m-mid {margin:5px 0 4px 26px; display:flex; flex-wrap:wrap; align-items:center; gap:6px;}
+  .m-meta {color:#595959; font-size:12px;}
+  .m-thesis {margin-left:26px; color:#262626; font-size:13px; line-height:1.35;
+             display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .m-open .m-thesis {display:block;}
+  .m-more {margin:4px 0 0 26px; color:#1E4D2B; font-size:12px; font-weight:bold;}
+  .m-pill {display:inline-block; border:1px solid #a6a6a6; padding:1px 6px; font-size:12px; font-weight:bold; white-space:nowrap;}
+  .m-det {border:1px solid #a6a6a6; border-left:5px solid #1E4D2B; border-top:1px dashed #c0c0c0;
+          background:#fbfbfb; padding:4px 10px 10px 10px; margin:0 0 12px 0;}
+  .m-sec {margin-top:12px;}
+  .m-st {font-weight:bold; font-size:13px; color:#1E4D2B; text-transform:uppercase; letter-spacing:.4px;
+         border-bottom:2px solid #1E4D2B; padding-bottom:2px; margin-bottom:4px;}
+  .m-hint {color:#737373; font-size:11px; font-style:italic; margin:2px 0 4px 0;}
+  .m-txt {font-size:13px; line-height:1.45;}
+  .m-sec ul {margin:2px 0 0 0; padding-left:18px; font-size:13px; line-height:1.45;}
+  .m-sec li {margin-bottom:3px;}
+  .m-risk ul {background:#fff2cc; border:1px solid #e6d28a; padding:6px 8px 6px 24px;}
+  .m-sc {border-bottom:1px solid #e3e3e3;}
+  .m-sc > summary, .m-sc0 {display:flex; align-items:center; justify-content:space-between; padding:7px 2px;
+                          list-style:none; cursor:pointer; font-size:13px;}
+  .m-sc > summary::-webkit-details-marker {display:none;}
+  .m-sc > summary::after {content:"\203A"; color:#a0a0a0; margin-left:6px; font-size:16px;}
+  .m-sc[open] > summary::after {content:"\2039";}
+  .m-sc0::after {content:""; width:14px;}
+  .m-l {flex:1;}
+  .m-ev {font-size:12px; color:#333; background:#fff; border-left:3px solid #d0d0d0; padding:4px 8px; margin:0 0 8px 2px; line-height:1.45;}
+  .m-fold {border:1px solid #c9c9c9; background:#fff; margin-top:10px;}
+  .m-fold > summary {padding:8px; font-weight:bold; font-size:13px; cursor:pointer;}
+  .m-fold > div {padding:0 8px 8px 8px;}
+  .m-qq {border-top:1px solid #e3e3e3; padding:6px 0; font-size:12.5px; line-height:1.45;}
+  .m-qh {display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;}
+  .m-k {display:inline-block; min-width:62px; color:#595959; font-weight:bold; font-size:11px; text-transform:uppercase;}
+  .m-quote {font-style:italic; border-left:3px solid #1E4D2B; padding:4px 8px; margin-top:6px; font-size:13px;}
+  .m-pt {display:flex; justify-content:space-between; gap:8px; border-bottom:1px solid #eee; padding:5px 0; font-size:12.5px;}
+  .m-pt i {color:#737373;}
+  .m-pt b {min-width:38px; text-align:center; border:1px solid #a6a6a6;}
+}
 
 .tp-bar {background:#1E4D2B; color:#fff; margin:-16px -16px 12px -16px; padding:12px 16px 10px 16px;
          display:flex; align-items:center; gap:12px;}
@@ -213,62 +254,102 @@ document.getElementById("sub").innerHTML = DATA.length + " companies &nbsp;·&nb
 render();
 </script><script>
 (function () {
-  var deskDetail = detail;
-  function row(label, valueHtml, colour) {
-    return '<div class="m-row"><div class="m-lab">' + label + '</div><div class="m-val"' +
-      (colour && colour !== "#ffffff" ? ' style="background:' + colour + '"' : '') + '>' + valueHtml + '</div></div>';
+  var NARROW = 760, deskRender = render;
+  var mlist = document.createElement("div"); mlist.id = "mlist";
+  document.getElementById("tbl").parentNode.insertBefore(mlist, document.getElementById("tbl").nextSibling);
+
+  // "How to read" + method: folded away on phones
+  var meth = document.getElementsByClassName("method"), how = document.createElement("details");
+  how.id = "mhow"; how.innerHTML = "<summary>How to read this &amp; how scores are made</summary>";
+  var nt = document.getElementsByClassName("note")[0];
+  if (nt) nt.parentNode.insertBefore(how, nt);
+  meth = Array.prototype.slice.call(meth);
+  for (var mi = 0; mi < meth.length; mi++) how.appendChild(meth[mi]);
+
+  function pill(field, v) { return '<span class="m-pill" style="background:' + bg(field, v) + '">' + (ARROW[v] || "") + esc(v) + '</span>'; }
+  function list(a) { if (!a || !a.length) return ""; var o = "<ul>"; for (var i = 0; i < a.length; i++) o += "<li>" + esc(a[i]) + "</li>"; return o + "</ul>"; }
+  function section(title, hint, body, cls) {
+    return body ? '<div class="m-sec ' + (cls || "") + '"><div class="m-st">' + title + '</div>' + (hint ? '<div class="m-hint">' + hint + '</div>' : '') + body + '</div>' : "";
   }
-  detail = function (r) {
-    if (window.innerWidth > 760) return deskDetail(r);
-    var h = '<div class="m-det">', k, x;
-    h += '<div class="dt">' + esc(r._company) + '</div>';
-    h += '<div class="m-chips"><span style="background:' + bg("overall_signal", r.overall_signal) + '">' + esc(r.overall_signal) + '</span>'
-       + '<span style="background:' + scoreBg(r.formula_score) + '">Formula ' + r.formula_score.toFixed(1) + '</span>'
-       + '<span style="background:' + scoreBg(r.conviction_score) + '">AI ' + r.conviction_score + '/10' + (Math.abs(r.score_gap) >= GAP ? ' &#9670;' : '') + '</span></div>';
-    h += '<div class="sub">' + esc(r.one_line_thesis) + '</div>';
+  function fold(title, body) { return body ? '<details class="m-fold"><summary>' + title + '</summary><div>' + body + '</div></details>' : ""; }
 
-    h += '<div class="m-hd">Quarter by quarter (latest first)</div>';
-    var q = (r.quarters || []).slice().reverse();
-    for (k = 0; k < q.length; k++) {
-      h += '<div class="m-card"><div class="m-q">' + esc(q[k].quarter) + '</div>'
-         + row("Growth / demand", esc(q[k].growth)) + row("Margins", esc(q[k].margins))
-         + row("Guidance", esc(q[k].guidance)) + row("Tone", (ARROW[q[k].tone] || "") + esc(q[k].tone), bg("tone", q[k].tone))
-         + row("Notable", esc(q[k].notable)) + '</div>';
+  function mDetail(r) {
+    var h = '<div class="m-det">';
+    h += section("What changed this quarter", "", '<div class="m-txt">' + esc(r.what_changed) + '</div>');
+
+    var sc = [["Guidance", "guidance_direction", r.guidance_detail], ["Demand", "demand_trend", r.demand_detail],
+              ["Margins", "margin_trend", r.margin_detail], ["Capacity", "capacity_signal", r.capacity_detail],
+              ["Mgmt tone", "tone_shift", ""], ["Delivered on promises", "credibility", r.credibility_detail],
+              ["Cycle stage", "cycle_stage", ""]], s = "";
+    for (var i = 0; i < sc.length; i++) {
+      var v = r[sc[i][1]], line = '<span class="m-l">' + sc[i][0] + '</span>' + pill(sc[i][1], v);
+      s += sc[i][2] ? '<details class="m-sc"><summary>' + line + '</summary><div class="m-ev">' + esc(sc[i][2]) + '</div></details>'
+                    : '<div class="m-sc m-sc0">' + line + '</div>';
     }
+    h += section("Scorecard", "Green = getting better, red = getting worse. Tap a line for the evidence.", s);
+    h += section("Why it could be early-cycle", "", list(r.early_cycle_evidence));
+    h += section("What to watch next", "Events that would confirm the turn.", list(r.triggers));
+    h += section("Risks", "", list(r.red_flags), "m-risk");
+    h += section("From the investor presentation", "", list(r.deck_findings));
 
-    h += '<div class="m-hd">The calls</div><div class="m-card">';
-    var d = [["Guidance", r.guidance_direction, "guidance_direction", r.guidance_detail],
-             ["Demand", r.demand_trend, "demand_trend", r.demand_detail],
-             ["Margins", r.margin_trend, "margin_trend", r.margin_detail],
-             ["Capacity / capex", r.capacity_signal, "capacity_signal", r.capacity_detail],
-             ["Delivery vs promises", r.credibility, "credibility", r.credibility_detail],
-             ["Cycle stage", r.cycle_stage, "cycle_stage", ""]];
-    for (x = 0; x < d.length; x++)
-      h += row(d[x][0], '<span class="m-tag" style="background:' + bg(d[x][2], d[x][1]) + '">' + (ARROW[d[x][1]] || "") + esc(d[x][1]) + '</span>'
-               + (d[x][3] ? '<div>' + esc(d[x][3]) + '</div>' : ''));
-    h += '</div>';
-
-    h += '<div class="m-card">'
-       + row("Early-cycle evidence", bullets(r.early_cycle_evidence))
-       + row("Triggers to watch", bullets(r.triggers))
-       + row("Red flags", bullets(r.red_flags), r.red_flags && r.red_flags.length ? "#fff2cc" : "")
-       + row("Analysts pressed on", esc(r.analyst_concerns))
-       + row("Key quote", '<i>&ldquo;' + esc(r.key_quote) + '&rdquo;</i>')
-       + (r._deck ? row("From the presentation", '<div class="m-small">' + esc(r._deck) + '</div>' + bullets(r.deck_findings)) : '')
-       + '</div>';
-
-    h += '<div class="m-hd">Formula score: how it adds up</div><div class="m-card">';
-    var fp = r.formula_parts || [];
-    for (x = 0; x < fp.length; x++)
-      h += '<div class="m-pt"><span>' + esc(fp[x][0]) + ': ' + esc(fp[x][1]) + '</span><b style="background:'
-         + (fp[x][2] > 0 ? "#d9ead3" : fp[x][2] < 0 ? "#f4cccc" : "#fff") + '">' + (fp[x][2] > 0 ? "+" : "") + fp[x][2] + '</b></div>';
-    h += '<div class="m-pt"><span><strong>Total</strong> = 5.5 + 0.45 &times; ' + r.formula_points + '</span><b style="background:'
-       + scoreBg(r.formula_score) + '">' + r.formula_score.toFixed(1) + '</b></div></div>';
+    var q = (r.quarters || []).slice().reverse(), qs = "";
+    for (var k = 0; k < q.length; k++)
+      qs += '<div class="m-qq"><div class="m-qh"><b>' + esc(q[k].quarter) + '</b>' + pill("tone", q[k].tone) + '</div>'
+          + '<div><span class="m-k">Growth</span> ' + esc(q[k].growth) + '</div>'
+          + '<div><span class="m-k">Margins</span> ' + esc(q[k].margins) + '</div>'
+          + '<div><span class="m-k">Guidance</span> ' + esc(q[k].guidance) + '</div>'
+          + (q[k].notable ? '<div><span class="m-k">Notable</span> ' + esc(q[k].notable) + '</div>' : '') + '</div>';
+    h += fold("Quarter by quarter (latest first)", qs);
+    h += fold("What analysts asked &amp; key quote",
+              (r.analyst_concerns ? '<div class="m-txt">' + esc(r.analyst_concerns) + '</div>' : '')
+              + (r.key_quote ? '<div class="m-quote">&ldquo;' + esc(r.key_quote) + '&rdquo;</div>' : ''));
+    var fp = r.formula_parts || [], f = "";
+    for (i = 0; i < fp.length; i++)
+      f += '<div class="m-pt"><span>' + esc(fp[i][0]) + ' <i>(' + esc(fp[i][1]) + ')</i></span><b style="background:'
+         + (fp[i][2] > 0 ? "#d9ead3" : fp[i][2] < 0 ? "#f4cccc" : "#fff") + '">' + (fp[i][2] > 0 ? "+" : "") + fp[i][2] + '</b></div>';
+    f += '<div class="m-pt"><span><strong>Score</strong> = 5.5 + 0.45 &times; ' + r.formula_points + '</span><b style="background:'
+       + scoreBg(r.formula_score) + '">' + r.formula_score.toFixed(1) + '</b></div>'
+       + '<div class="m-hint">AI score (Gemini\'s own view): ' + r.conviction_score + '/10' + (Math.abs(r.score_gap) >= GAP ? ' &#9670; differs from the formula - read the detail' : '') + '</div>';
+    h += fold("How the score " + r.formula_score.toFixed(1) + " is calculated", f);
     return h + '</div>';
+  }
+
+  render = function () {
+    var narrow = window.innerWidth <= NARROW;
+    document.getElementById("tbl").style.display = narrow ? "none" : "";
+    if (!narrow) { mlist.innerHTML = ""; return deskRender(); }
+    var fs = document.getElementById("fSector").value, fg = document.getElementById("fSignal").value,
+        fm = parseInt(document.getElementById("fScore").value, 10), fn = document.getElementById("fName").value.toLowerCase();
+    var rows = [], i, r;
+    for (i = 0; i < DATA.length; i++) { r = DATA[i];
+      if (fs && r._sector !== fs) continue; if (fg && r.overall_signal !== fg) continue;
+      if (r.formula_score < fm) continue; if (fn && r._company.toLowerCase().indexOf(fn) < 0) continue;
+      rows.push(r); }
+    var h = "", divided = false;
+    for (i = 0; i < rows.length; i++) { r = rows[i]; var qs = r._quarters || [];
+      if (!r.is_current && !divided) { divided = true;
+        h += '<div class="m-div">Not yet reported ' + NEWEST + ' &mdash; ranked separately</div>'; }
+      h += '<div class="m-card' + (open[r._company] ? ' m-open' : '') + '" data-c="' + esc(r._company) + '">'
+         + '<div class="m-top"><span class="m-rank">' + r.rank + '</span><span class="m-name">' + esc(r._company) + '</span>'
+         + '<span class="m-score" style="background:' + scoreBg(r.formula_score) + '">' + r.formula_score.toFixed(1) + '</span></div>'
+         + '<div class="m-mid">' + pill("overall_signal", r.overall_signal) + '<span class="m-meta">' + esc(r._sector || "")
+         + ' &middot; ' + esc(qs.length ? qs[qs.length - 1] : "") + '</span></div>'
+         + '<div class="m-thesis">' + esc(r.one_line_thesis) + '</div>'
+         + '<div class="m-more">' + (open[r._company] ? "Close &#9650;" : "Details &#9660;") + '</div></div>';
+      if (open[r._company]) h += mDetail(r);
+    }
+    mlist.innerHTML = h || "<p><i>No companies match these filters.</i></p>";
+    document.getElementById("count").innerHTML = rows.length + " of " + DATA.length + " companies";
+    var cards = mlist.getElementsByClassName("m-card");
+    for (i = 0; i < cards.length; i++) cards[i].onclick = function () {
+      var t = document.createElement("textarea"); t.innerHTML = this.getAttribute("data-c"); var c = t.value;
+      open[c] = !open[c]; var y = this.getBoundingClientRect().top; render();
+      var again = mlist.querySelector('.m-card[data-c="' + this.getAttribute("data-c").replace(/"/g, '\\"') + '"]');
+      if (again) window.scrollBy(0, again.getBoundingClientRect().top - y); };
   };
-  var lastWide = window.innerWidth > 760;
-  window.addEventListener("resize", function () {       // phone turned sideways: switch layout
-    var wide = window.innerWidth > 760; if (wide !== lastWide) { lastWide = wide; render(); } });
+  var lastNarrow = window.innerWidth <= NARROW;
+  window.addEventListener("resize", function () {
+    var n = window.innerWidth <= NARROW; if (n !== lastNarrow) { lastNarrow = n; render(); } });
   render();
 })();
 </script><div class="tp-foot">Karma Capital · Internal research · Not investment advice</div></body></html>
