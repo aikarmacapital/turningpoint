@@ -105,8 +105,19 @@ th .sa {font-size:10px; color:#1E4D2B;}
   table.kpi td span {display:none;}            /* phone: hide the 'why' note, keep the numbers compact */
   table.kpi td:first-child {min-width:110px;}
   .m-scroll table.inner.kpi {width:auto !important;}
+  .m-scroll table.inner.chain td:first-child {width:15% !important;}
+  .m-scroll table.inner.chain td.c {width:11% !important;}
+  .m-scroll table.inner.chain td {font-size:12px;}
   .m-scroll table.inner.kpi td.c {white-space:nowrap !important; width:auto !important;}
   .m-scroll table.inner.kpi td:first-child {position:sticky; left:0; background:#f2f2f2; z-index:1;}
+  .m-scroll table.inner.kpi th:first-child {position:sticky; left:0; z-index:2; background:#173d22 !important;}
+  /* Area / Call / Evidence: fits the screen, evidence gets most of the width */
+  .m-scroll table.inner.area {width:100% !important; table-layout:fixed;}
+  .m-scroll table.inner.area th:nth-child(1), .m-scroll table.inner.area td:nth-child(1) {width:23% !important;}
+  .m-scroll table.inner.area th:nth-child(2), .m-scroll table.inner.area td:nth-child(2) {width:20% !important;}
+  .m-scroll table.inner.area th:nth-child(3), .m-scroll table.inner.area td:nth-child(3) {width:57% !important;}
+  .m-scroll table.inner.area td {font-size:12.5px; overflow-wrap:anywhere; word-break:break-word; white-space:normal !important;}
+  .m-scroll table.inner.area td.c {padding:5px 3px !important;}
   .m-legend span {display:inline-block; font-size:11px; font-weight:bold; padding:1px 6px; margin:0 4px 3px 0; border:1px solid #c9c9c9;}
   .m-hint {font-size:11px; color:#737373; font-style:italic; margin:2px 0 0 0;}
 }
@@ -123,7 +134,7 @@ th .sa {font-size:10px; color:#1E4D2B;}
   .tp-name {font-size:19px;} .tp-ed {margin-left:0; text-align:left; width:100%;}
 }
 </style></head><body>
-<div class="tp-bar"><img src="icon-192.png" alt=""><div><div class="tp-name">Turning Point</div><div class="tp-tag">Spotting the turn before the numbers do</div></div><div class="tp-ed"><b>Q2FY27 edition</b><br>updated 24 Nov 2026</div></div><h1 style="font-size:15px">Earnings-call screen</h1>
+<div class="tp-bar"><img src="icon-192.png" alt=""><div><div class="tp-name">Turning Point</div><div class="tp-tag">Spotting the turn before the numbers do</div></div><div class="tp-ed"><b>Q2FY27 edition</b><br>updated 25 Nov 2026</div></div><h1 style="font-size:15px">Earnings-call screen</h1>
 <div class="sub" id="sub"></div>
 <div class="bar">
  <label>Sector<select id="fSector"><option value="">All</option></select></label>
@@ -350,7 +361,7 @@ document.getElementById("fName").onkeyup = render;
 var counts = {}, parts = [];
 for (i = 0; i < DATA.length; i++) counts[DATA[i].overall_signal] = (counts[DATA[i].overall_signal] || 0) + 1;
 for (i = 0; i < ORDER.length; i++) if (counts[ORDER[i]]) parts.push(ORDER[i] + ": " + counts[ORDER[i]]);
-document.getElementById("sub").innerHTML = DATA.length + " companies &nbsp;·&nbsp; prepared 24 Nov 2026 &nbsp;·&nbsp; " + parts.join(" &nbsp;·&nbsp; ");
+document.getElementById("sub").innerHTML = DATA.length + " companies &nbsp;·&nbsp; prepared 25 Nov 2026 &nbsp;·&nbsp; " + parts.join(" &nbsp;·&nbsp; ");
 render();
 </script><script>
 (function () {
@@ -369,6 +380,7 @@ render();
     if (window.innerWidth > 760) return h;
     h = h.replace('<table class="inner">', '<table class="inner qt">')
          .replace("<th>Quarter by quarter (latest first)</th>", "<th>Quarter</th>");
+    h = h.replace('<table class="inner" style="margin-top:6px"><tr><th>Area</th>', '<table class="inner area" style="margin-top:6px"><tr><th>Area</th>');
     h = h.split('<table class="inner').join('<div class="m-scroll"><table class="inner').split("</table>").join("</table></div>");
     var legend = '<div class="m-legend"><span style="background:#c6efce;color:#006100">Better</span>'
       + '<span style="background:#ededed;color:#404040">No change</span><span style="background:#ffeb9c;color:#7f6000">Mixed</span>'
