@@ -29,7 +29,13 @@ tr.det > td {background:#fafafa; padding:10px 12px;}
 .pie {display:inline-block; text-align:center; margin-right:10px; font-size:11px; color:#404040;}
 table.seg {display:inline-table; vertical-align:top;} .sw {display:inline-block; width:10px; height:10px; margin-right:5px;}
 
+html, body {-webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* stop iPhone Safari enlarging text blocks */
 @media (max-width: 760px) {
+  html, body {max-width:100%; overflow-x:hidden;}
+  .method, #mhow {max-width:100% !important; box-sizing:border-box;}
+  .method *, .note, .sub {overflow-wrap:anywhere; word-break:normal; max-width:100%; box-sizing:border-box;}
+  .method table {display:block; overflow-x:auto; max-width:100%;}
+  .method .sub, .note {font-size:12.5px; line-height:1.45;}
   body {margin:8px; font-size:13px;}
   h1 {font-size:16px;}
   .bar label {display:inline-block; width:48%; margin:3px 0; font-size:12px; vertical-align:top;}
