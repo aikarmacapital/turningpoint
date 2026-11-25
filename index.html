@@ -31,7 +31,14 @@ table.seg {display:inline-table; vertical-align:top;} .sw {display:inline-block;
 
 html, body {-webkit-text-size-adjust:100%; text-size-adjust:100%;}   /* stop iPhone Safari enlarging text blocks */
 @media (max-width: 760px) {
-  html, body {max-width:100%; overflow-x:hidden;}
+  /* company detail: header, thesis and boxes always fit the screen width and wrap */
+  tr.det > td .dt, tr.det > td > .sub, tr.det > td .segwrap {max-width:calc(100vw - 30px); white-space:normal;
+                                                            overflow-wrap:anywhere; box-sizing:border-box;}
+  tr.det > td .m-scroll {max-width:calc(100vw - 30px) !important;}
+  table.inner th {white-space:normal !important;}
+  table.qt th, table.kpi th:not(:first-child) {white-space:nowrap !important;}
+  .m-scroll table.inner.odds-t {width:100% !important;}
+  .m-scroll table.inner.odds-t th:first-child, .m-scroll table.inner.odds-t td:first-child {width:46% !important;}
   .method, #mhow {max-width:100% !important; box-sizing:border-box;}
   .method *, .note, .sub {overflow-wrap:anywhere; word-break:normal; max-width:100%; box-sizing:border-box;}
   .method table {display:block; overflow-x:auto; max-width:100%;}
